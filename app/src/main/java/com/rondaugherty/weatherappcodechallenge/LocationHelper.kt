@@ -6,6 +6,7 @@ import android.location.Location
 import androidx.core.content.PermissionChecker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.rondaugherty.weatherappcodechallenge.Utils.RxBus
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.AnkoLogger
@@ -13,6 +14,7 @@ import org.jetbrains.anko.info
 
 class LocationHelper : AnkoLogger {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     fun checkPermission(context: Context): Boolean {
         return PermissionChecker.checkSelfPermission(
@@ -22,7 +24,7 @@ class LocationHelper : AnkoLogger {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
-    fun getLocation (context: Context) : Observable<Location> {
+    fun getLocation(context: Context): Observable<Location> {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
         return BehaviorSubject.create { emitter ->
@@ -32,6 +34,8 @@ class LocationHelper : AnkoLogger {
 
                         location?.let {
                             emitter.onNext(it)
+                            RxBus.publish(it)
+
                         }
                         info("location in successlistner  $location")
 
