@@ -6,7 +6,6 @@ import android.location.Location
 import androidx.core.content.PermissionChecker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.rondaugherty.weatherappcodechallenge.Utils.RxBus
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.AnkoLogger
@@ -34,7 +33,7 @@ class LocationHelper : AnkoLogger {
 
                         location?.let {
                             emitter.onNext(it)
-                            RxBus.publish(it)
+//                            RxBus.publish(it)
 
                         }
                         info("location in successlistner  $location")

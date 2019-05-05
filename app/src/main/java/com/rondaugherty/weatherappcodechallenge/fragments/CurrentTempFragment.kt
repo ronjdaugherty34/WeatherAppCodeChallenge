@@ -3,18 +3,22 @@ package com.rondaugherty.weatherappcodechallenge.fragments
 
 import android.Manifest
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rondaugherty.weatherappcodechallenge.LocationHelper
 import com.rondaugherty.weatherappcodechallenge.R
-import com.rondaugherty.weatherappcodechallenge.Utils.RxBus
+import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
+import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
+import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -24,15 +28,20 @@ import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
 
 class CurrentTempFragment : Fragment(), AnkoLogger {
 
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var weatherViewModel: WeatherViewModel
-    private lateinit var weatherTextView: TextView
-    private val locationHelper: LocationHelper by lazy { LocationHelper() }
+    private val weatherRespository: WeatherRepository = WeatherRepository()
+    private lateinit var dateTimeTextView: TextView
+    private lateinit var forecastTemp: TextView
+    private lateinit var weatherIconImageView: ImageView
+    private val locationHelper: LocationHelper = LocationHelper()
     private var permissionGranted = ""
+    private var icon = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,42 +50,42 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val disposable = RxBus.listen(Location::class.java)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                getWeatherViewModel()
-            }
-
-        compositeDisposable.add(disposable)
-
-
-    }
-
-    private fun getWeatherViewModel() =
-        weatherViewModel.getCurrentWeather().observe(this, Observer { currentConditions ->
-            (info { "about to set textview $currentConditions" })
-
-            if (currentConditions != null) {
-                weatherTextView.text = currentConditions.toString()
-            } else {
-                (info { "about to set textview $currentConditions" })
-            }
-
-
-        })
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_current_temp, container, false)
 
-        weatherTextView = view.find(R.id.weatherTextView)
+        dateTimeTextView = view.find(R.id.dateTimeTextView)
+        forecastTemp = view.find(R.id.forecastTemp)
+        weatherIconImageView = view.find(R.id.weatherIconImageView)
 
+        screenSetup()
+
+        return view
+    }
+
+
+    private fun getWeatherViewModel(location: Location) =
+        weatherViewModel.getCurrentWeather(location).observe(this, Observer { currentConditions ->
+
+            currentConditions?.let {
+                icon = currentConditions.weather[0].icon
+                val path = "https://openweathermap.org/img/w/$icon.png"
+                val uri = Uri.parse(
+                    path
+                )
+                Picasso.with(act).load(uri).into(weatherIconImageView)
+
+                dateTimeTextView.text = DateFormatter.convertLongToTime(currentConditions.dt.toLong() * 1000)
+                forecastTemp.text = "${currentConditions.main.temp.roundToInt()}°"
+            }
+
+
+        })
+
+
+    private fun screenSetup() {
         if (!locationHelper.checkPermission(act)) {
             requestPermissions()
         } else {
@@ -88,20 +97,13 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                     info("the location helper found $it ")
 
                     info("in main act pusing location")
-                    RxBus.publish(it)
-                    getWeatherViewModel()
+                    weatherRespository.getWeather(it)
+                    getWeatherViewModel(it)
 
                 }
             compositeDisposable.add(disposable)
         }
-
-
-        // Inflate the layout for this fragment
-
-
-        return view
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -121,8 +123,6 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                 when {
                     permission.granted -> {
                         permissionGranted = permission.name
-
-
                     }
 
                     permission.shouldShowRequestPermissionRationale -> {
