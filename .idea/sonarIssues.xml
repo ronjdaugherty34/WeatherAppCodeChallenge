@@ -8,6 +8,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/LocationHelper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/MainActivity.kt">
           <value>
             <set />
@@ -19,6 +34,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/fragments/FiveDayForecastFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/model/FoundLocation.kt">
           <value>
             <set />
           </value>
