@@ -20,7 +20,7 @@ class PlaceholderFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java).apply {
-          //  setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+
 
         }
     }
