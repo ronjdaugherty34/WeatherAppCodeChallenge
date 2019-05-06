@@ -2,7 +2,6 @@ package com.rondaugherty.weatherappcodechallenge.fragments
 
 
 import android.Manifest
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,20 +12,21 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.rondaugherty.weatherappcodechallenge.LocationHelper
 import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
 import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
-import com.squareup.picasso.Picasso
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.find
+import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.yesButton
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -66,19 +66,27 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     }
 
 
-    private fun getWeatherViewModel(location: Location) =
-        weatherViewModel.getCurrentWeather(location).observe(this, Observer { currentConditions ->
+    private fun getWeatherViewModel(lat : Double, lon: Double) =
+        weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
 
             currentConditions?.let {
                 icon = currentConditions.weather[0].icon
-                val path = "https://openweathermap.org/img/w/$icon.png"
-                val uri = Uri.parse(
-                    path
-                )
-                Picasso.with(act).load(uri).into(weatherIconImageView)
 
-                dateTimeTextView.text = DateFormatter.convertLongToTime(currentConditions.dt.toLong() * 1000)
-                forecastTemp.text = "${currentConditions.main.temp.roundToInt()}°"
+                val path = "https://openweathermap.org/img/w/$icon.png"
+                val uri = Uri.parse(path)
+
+
+                Glide.with(act)
+                    .load(uri)
+                    .into(weatherIconImageView)
+
+                dateTimeTextView.text = getString(R.string.date_text,
+                    DateFormatter.convertLongToMonthDay(currentConditions.dt.toLong() * 1000))
+
+                forecastTemp.text = getString(R.string.temp, currentConditions.main.temp.roundToInt().toString())
+
+
+
             }
 
 
@@ -89,16 +97,11 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         if (!locationHelper.checkPermission(act)) {
             requestPermissions()
         } else {
-            toast("We have permissions")
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    info("the location helper found $it ")
-
-                    info("in main act pusing location")
-                    weatherRespository.getWeather(it)
-                    getWeatherViewModel(it)
+                    weatherRespository.getWeather(it.latitude, it.longitude)
+                    getWeatherViewModel(it.latitude, it.longitude)
 
                 }
             compositeDisposable.add(disposable)
@@ -108,6 +111,9 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.clear()
+        weatherRespository.clearObservers()
+        weatherViewModel.clearObservers()
+
 
     }
 

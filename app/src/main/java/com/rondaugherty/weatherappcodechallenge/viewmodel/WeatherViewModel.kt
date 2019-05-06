@@ -1,6 +1,5 @@
 package com.rondaugherty.weatherappcodechallenge.viewmodel
 
-import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
@@ -11,29 +10,35 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.wtf
 
 class WeatherViewModel : ViewModel(), AnkoLogger {
 
     private val weatherRepository: WeatherRepository = WeatherRepository()
-    private val weatherCurrentLiveData: MutableLiveData<CurrentConditions> = MutableLiveData()
-    private val weatherFiveDayLiveData: MutableLiveData<List<Days>> = MutableLiveData()
-    private val compositeDisposable = CompositeDisposable()
+   internal val weatherCurrentLiveData: MutableLiveData<CurrentConditions> = MutableLiveData()
+    internal  val weatherFiveDayLiveData: MutableLiveData<List<Days>> = MutableLiveData()
+    internal val compositeDisposable = CompositeDisposable()
 
 
-    fun getCurrentWeather ( location: Location) : MutableLiveData<CurrentConditions> {
-        val disposable = weatherRepository.getWeather(location)
+    fun getCurrentWeather(lat: Double, lon: Double): MutableLiveData<CurrentConditions> {
+        val disposable = weatherRepository.getWeather(lat, lon)
+            .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .subscribeBy {
-                 info { "about to post value to current conditions" }
-                weatherCurrentLiveData.postValue(it)
-            }
+            .subscribeBy(
+                onNext = ({ currentConditions ->
+                    weatherCurrentLiveData.postValue(currentConditions)
+                }),
+                onError = ({ wtf("Error with fetching weather data response ${it.printStackTrace()}") }),
+                onComplete = ({ info("fetching weather data complete") })
+            )
         compositeDisposable.add(disposable)
 
         return weatherCurrentLiveData
     }
 
-    fun getFiveDayForecast (location: Location) : MutableLiveData<List<Days>> {
-        val disposable = weatherRepository.getFiveDayConditions(location)
+    fun getFiveDayForecast(lat: Double, lon: Double): MutableLiveData<List<Days>> {
+        val disposable = weatherRepository.getFiveDayConditions(lat, lon)
+            .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribeBy {
                 info { "about to post value to current  5 day conditions" }
@@ -42,7 +47,11 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
 
         compositeDisposable.add(disposable)
 
-        return  weatherFiveDayLiveData
+        return weatherFiveDayLiveData
+    }
+
+    fun clearObservers() {
+        compositeDisposable.clear()
     }
 
 

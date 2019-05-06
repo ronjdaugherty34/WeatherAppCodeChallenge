@@ -1,7 +1,6 @@
 package com.rondaugherty.weatherappcodechallenge.fragments
 
 
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.adapter.WeatherAdapter
 import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
@@ -52,13 +50,9 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
 
         val disposable = locationHelper.getLocation(act)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                info("the location helper found $it ")
-
-                info("in main act pusing location")
-                weatherRepository.getWeather(it)
-                getWeatherViewModel(it)
+                weatherRepository.getFiveDayConditions(it.latitude, it.longitude)
+                getWeatherViewModel(it.latitude, it.longitude)
 
             }
         compositeDisposable.add(disposable)
@@ -74,13 +68,13 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getWeatherViewModel(location: Location) =
-        weatherViewModel.getFiveDayForecast(location).observe(this, Observer { daysList ->
+
+    private fun getWeatherViewModel(lat : Double, lon: Double) =
+        weatherViewModel.getFiveDayForecast(lat, lon).observe(this, Observer { daysList ->
             info("the five day observed conditions are $daysList")
 
             daysList?.let {
-                weatherAdapter = WeatherAdapter(daysList)
+                weatherAdapter = WeatherAdapter(daysList, act)
                 weatherRecyclerView.adapter = weatherAdapter
             }
 

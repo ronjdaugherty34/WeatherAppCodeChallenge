@@ -1,5 +1,6 @@
 package com.rondaugherty.weatherappcodechallenge.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.rondaugherty.weatherappcodechallenge.model.Days
 import kotlinx.android.synthetic.main.parent_recycler.view.*
 import org.jetbrains.anko.AnkoLogger
 
-class WeatherAdapter (private var dayList: List<Days>) : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>(),
+class WeatherAdapter (private var dayList: List<Days>, val context: Context) : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>(),
     AnkoLogger {
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -33,7 +34,7 @@ class WeatherAdapter (private var dayList: List<Days>) : RecyclerView.Adapter<We
         holder.textView.text = day.day
         holder.recyclerView.apply {
             layoutManager = LinearLayoutManager(holder.recyclerView.context, LinearLayout.HORIZONTAL, false)
-            adapter = ChildAdapter(day.forecastList)
+            adapter = ChildAdapter(day.forecastList, context)
             setRecycledViewPool(viewPool)
         }
 

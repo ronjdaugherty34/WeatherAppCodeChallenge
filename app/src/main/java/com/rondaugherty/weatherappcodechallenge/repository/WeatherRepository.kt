@@ -1,6 +1,5 @@
 package com.rondaugherty.weatherappcodechallenge.repository
 
-import android.location.Location
 import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
 import com.rondaugherty.weatherappcodechallenge.Utils.Utils
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
@@ -8,7 +7,6 @@ import com.rondaugherty.weatherappcodechallenge.model.Days
 import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
 import com.rondaugherty.weatherappcodechallenge.networking.WebService
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -20,62 +18,43 @@ import org.jetbrains.anko.wtf
 class WeatherRepository : AnkoLogger {
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    private var lon: Double = 0.0
-    private var lat: Double = 0.0
+    fun getWeather(lat: Double, lon: Double): Observable<CurrentConditions> {
 
+        return BehaviorSubject.create<CurrentConditions> { emitter ->
 
+            val disposable = WebService.getAPIService().getCurrentConditions(
+                lat = lat,
+                lon = lon,
+                units = "imperial",
+                apiKey = Utils.APPID
+            )
+                .subscribeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = ({ response ->
+                        response.body()?.let { it ->
+                            emitter.onNext(it)
+                        }
+                    }),
+                    onError = ({ wtf("Error with fetching weather data response ${it.printStackTrace()}") }),
+                    onComplete = ({ info("fetching weather data complete") })
 
-     fun getWeather(location: Location) : Observable<CurrentConditions>  {
-
-         return BehaviorSubject.create<CurrentConditions> { emitter ->
-
-             val disposable = WebService.getAPIService().getCurrentConditions(
-                 lat = location.latitude,
-                 lon = location.longitude,
-                 units = "imperial",
-                 apiKey = Utils.APPID
-             )
-                 .subscribeOn(Schedulers.io())
-                 .subscribeBy(
-                     onSuccess = ({ response ->
-
-                         info("${response.body()}")
-
-                         response.body()?.let { it ->
-                             emitter.onNext(it)
-                         }
-
-
-                     }),
-                     onError = ({ wtf("Error with fetching weather data response ${it.printStackTrace()}") }),
-                     onComplete = ({ info("fetching weather data complete") })
-
-                 )
-             compositeDisposable.add(disposable)
-         }
+                )
+            compositeDisposable.add(disposable)
+        }
 
 
     }
 
-
-
-    fun getFiveDayConditions(location: Location): Observable<List<Days>> {
-
-        info { "in 5 getConditions" }
-
-
-        info { "in  5 getConditions ${location.longitude} ${location.latitude}" }
-
+    fun getFiveDayConditions(lat: Double, lon: Double): Observable<List<Days>> {
 
         return BehaviorSubject.create { emitter ->
             val disposable = WebService.getAPIService().getFiveDayForecast(
-                lat = location.latitude,
-                lon = location.longitude,
+                lat = lat,
+                lon = lon,
                 units = "imperial",
                 apiKey = Utils.APPID
             )
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                     onSuccess = ({ response ->
                         response.body()?.let {
@@ -93,21 +72,19 @@ class WeatherRepository : AnkoLogger {
 
     }
 
-    private fun sortConditions(fiveDayForecast: FiveDayForecast) : List<Days>{
+    internal fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
         val dayList = mutableListOf<Days>()
-        val oneDayList = fiveDayForecast.forecastList.groupBy { DateFormatter.convertLongToTime(it.dt.toLong() *1000) }
-        for ((k, v) in  oneDayList) {
-            println("$k = $v")
+        val oneDayList = fiveDayForecast.forecastList
+            .groupBy { DateFormatter.convertLongToMonthDay(it.dt.toLong() * 1000) }
 
-            dayList.add(Days(k,v))
+        for ((k, v) in oneDayList) {
+            dayList.add(Days(k, v))
         }
         return dayList
     }
 
     fun clearObservers() {
         compositeDisposable.clear()
-
-
     }
 
 }

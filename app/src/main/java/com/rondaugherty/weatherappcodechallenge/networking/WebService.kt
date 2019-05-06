@@ -15,7 +15,7 @@ object WebService {
 
     private var retrofit: Retrofit? = null
 
-    fun getClient(logLevel: LogLevel): Retrofit {
+    private fun getClient(logLevel: LogLevel): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         when (logLevel) {
             LogLevel.LOG_NOT_NEEDED ->
