@@ -33,6 +33,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/CustomViewPager.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/DateFormatter.kt">
           <value>
             <set />

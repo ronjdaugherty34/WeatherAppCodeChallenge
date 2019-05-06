@@ -3,8 +3,8 @@ package com.rondaugherty.weatherappcodechallenge
 import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.rondaugherty.weatherappcodechallenge.Utils.CustomViewPager
 import com.rondaugherty.weatherappcodechallenge.ui.main.SectionsPagerAdapter
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.CompositeDisposable
@@ -26,8 +26,10 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        val viewPager: CustomViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
+        viewPager.setPagingEnabled(false)
+
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
