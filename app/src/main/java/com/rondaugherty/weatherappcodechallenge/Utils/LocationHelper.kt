@@ -1,8 +1,9 @@
-package com.rondaugherty.weatherappcodechallenge
+package com.rondaugherty.weatherappcodechallenge.Utils
 
 import android.Manifest
 import android.content.Context
 import android.location.Location
+import android.net.ConnectivityManager
 import androidx.core.content.PermissionChecker
 import com.google.android.gms.location.LocationServices
 import io.reactivex.Observable
@@ -36,4 +37,15 @@ class LocationHelper : AnkoLogger {
         }
 
     }
+
+    fun isNetworkAvaiable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return when {
+            activeNetworkInfo != null && activeNetworkInfo.isConnected -> true
+            else -> false
+        }
+    }
+
+
 }

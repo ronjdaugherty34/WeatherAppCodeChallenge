@@ -8,4 +8,5 @@
     <string name="temp">%s°</string>
     <string name="thermostatTargetTemp">%s°</string>
     <string name="date_text">%s</string>
+    <string name="network_message">Network Unavailable</string>
 </resources>

@@ -50,6 +50,8 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
         return weatherFiveDayLiveData
     }
 
+
+
     fun clearObservers() {
         compositeDisposable.clear()
     }

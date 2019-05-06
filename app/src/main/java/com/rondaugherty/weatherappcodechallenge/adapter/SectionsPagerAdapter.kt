@@ -1,4 +1,4 @@
-package com.rondaugherty.weatherappcodechallenge.ui.main
+package com.rondaugherty.weatherappcodechallenge.adapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment

@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.rondaugherty.weatherappcodechallenge.LocationHelper
 import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
+import com.rondaugherty.weatherappcodechallenge.Utils.LocationHelper
 import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -69,7 +69,13 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     private fun getWeatherViewModel(lat : Double, lon: Double) =
         weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
 
+            if (currentConditions == null){
+                forecastTemp.visibility = View.INVISIBLE
+                weatherIconImageView.visibility = View.INVISIBLE
+            }
             currentConditions?.let {
+                forecastTemp.visibility = View.VISIBLE
+                weatherIconImageView.visibility = View.VISIBLE
                 icon = currentConditions.weather[0].icon
 
                 val path = "https://openweathermap.org/img/w/$icon.png"
@@ -94,9 +100,18 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
 
     private fun screenSetup() {
+
         if (!locationHelper.checkPermission(act)) {
             requestPermissions()
         } else {
+            getLocation()
+
+
+        }
+    }
+
+    private fun getLocation (){
+        if (locationHelper.isNetworkAvaiable(act)) {
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
@@ -105,7 +120,13 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
                 }
             compositeDisposable.add(disposable)
+        }else {
+            dateTimeTextView.text = getString(R.string.network_message)
+            forecastTemp.visibility = View.INVISIBLE
+            weatherIconImageView.visibility = View.INVISIBLE
+            showNoNetworkAlert()
         }
+
     }
 
     override fun onDestroy() {
@@ -122,7 +143,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
         val disposable = rxPermissions.requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_NETWORK_STATE
         )
             .debounce(1, TimeUnit.SECONDS)
             .subscribe { permission ->
@@ -148,6 +170,13 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         compositeDisposable.add(disposable)
     }
 
+    private fun showNoNetworkAlert() {
+        alert("Network unavailable ") {
+            message = "Network need for app to work properly"
+            yesButton {getLocation ()  }
+        }.show()
+    }
+
     private fun showAlert() {
         alert("need permissions") {
             message = "need permissions rationale"
@@ -165,4 +194,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
             noButton { }
         }.show()
     }
+
+
+
+
 }

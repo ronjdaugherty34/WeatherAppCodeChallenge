@@ -53,6 +53,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/LocationHelper.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/RxBus.kt">
           <value>
             <set />
