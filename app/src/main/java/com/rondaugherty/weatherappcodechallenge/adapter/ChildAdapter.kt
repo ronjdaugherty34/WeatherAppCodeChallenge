@@ -40,7 +40,7 @@ class ChildAdapter(private val children : List<CurrentConditions>)
 
         Picasso.with(holder.itemView.context).load(uri).into(holder.itemView.fiveDayWeatherIconImageView)
 
-        holder.textView.text = "${DateFormatter.convertLongToTime(child.dt.toLong() *1000)}"
+
         holder.textView2.text = "${DateFormatter.convertLongToTimeTime(child.dt.toLong() *1000)}"
         holder.textView3.text = "${child.main.temp.roundToInt()}°"
 
@@ -51,7 +51,7 @@ class ChildAdapter(private val children : List<CurrentConditions>)
 
 
 
-        val textView : TextView = itemView.fiveDateTimeTextView
+
         val textView2 : TextView = itemView.fiveTimeTextView
         val textView3 : TextView = itemView.  fiveDayForecastTemp
 
