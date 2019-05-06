@@ -21,12 +21,9 @@ import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.find
-import org.jetbrains.anko.noButton
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.yesButton
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -60,16 +57,18 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         forecastTemp = view.find(R.id.forecastTemp)
         weatherIconImageView = view.find(R.id.weatherIconImageView)
 
-        screenSetup()
+      screenSetup()
+
+
 
         return view
     }
 
 
-    private fun getWeatherViewModel(lat : Double, lon: Double) =
+    private fun getWeatherViewModel(lat : Double, lon: Double) {
         weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
 
-            if (currentConditions == null){
+            if (currentConditions == null) {
                 forecastTemp.visibility = View.INVISIBLE
                 weatherIconImageView.visibility = View.INVISIBLE
             }
@@ -86,32 +85,44 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                     .load(uri)
                     .into(weatherIconImageView)
 
-                dateTimeTextView.text = getString(R.string.date_text,
-                    DateFormatter.convertLongToMonthDay(currentConditions.dt.toLong() * 1000))
+                dateTimeTextView.text = getString(
+                    R.string.date_text,
+                    DateFormatter.convertLongToMonthDay(currentConditions.dt.toLong() * 1000)
+                )
 
                 forecastTemp.text = getString(R.string.temp, currentConditions.main.temp.roundToInt().toString())
-
 
 
             }
 
 
         })
+    }
 
 
     private fun screenSetup() {
+        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
+        val hasPermissions = locationHelper.checkPermission(act)
+        info("permissions are $hasPermissions")
+        info("permissions are $isNetworkAvaiable")
 
-        if (!locationHelper.checkPermission(act)) {
-            requestPermissions()
-        } else {
-            getLocation()
+        dateTimeTextView.text = getString(R.string.network_message)
+        forecastTemp.visibility = View.INVISIBLE
+        weatherIconImageView.visibility = View.INVISIBLE
 
 
+        when (hasPermissions) {
+            true -> { getLocation(isNetworkAvaiable) }
+            false -> { requestPermissions() }
         }
+
+
     }
 
-    private fun getLocation (){
-        if (locationHelper.isNetworkAvaiable(act)) {
+    private fun getLocation (isNetworkAvaiable: Boolean){
+
+
+        if (isNetworkAvaiable) {
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
@@ -143,7 +154,6 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
         val disposable = rxPermissions.requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE
         )
             .debounce(1, TimeUnit.SECONDS)
@@ -151,6 +161,11 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                 when {
                     permission.granted -> {
                         permissionGranted = permission.name
+                        info ("per name ${permission.name}")
+                        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
+                        getLocation (isNetworkAvaiable)
+
+
                     }
 
                     permission.shouldShowRequestPermissionRationale -> {
@@ -173,13 +188,16 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     private fun showNoNetworkAlert() {
         alert("Network unavailable ") {
             message = "Network need for app to work properly"
-            yesButton {getLocation ()  }
+            yesButton {
+                val thing = locationHelper.isNetworkAvaiable(act)
+                getLocation(thing)
+                  }
         }.show()
     }
 
     private fun showAlert() {
-        alert("need permissions") {
-            message = "need permissions rationale"
+        alert("Location Permission") {
+            message = "Need location permission to retrieve the weather data"
             yesButton { requestPermissions() }
             noButton { }
 
@@ -188,9 +206,9 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     }
 
     private fun showDenialAlert() {
-        alert("need permissions") {
-            message = "denied permission"
-            yesButton { }
+        alert("Permission denied") {
+            message = "Critical permission needed denied"
+            yesButton { requestPermissions() }
             noButton { }
         }.show()
     }

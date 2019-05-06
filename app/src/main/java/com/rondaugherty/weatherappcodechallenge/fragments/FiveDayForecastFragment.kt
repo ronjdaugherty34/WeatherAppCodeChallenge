@@ -33,7 +33,6 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
     private lateinit var weatherAdapter: WeatherAdapter
     private lateinit var weatherRecyclerView: RecyclerView
     private val locationHelper: LocationHelper = LocationHelper()
-    private var permissionGranted = ""
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -60,7 +59,7 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
             }
         compositeDisposable.add(disposable)
 
-        screenSetUp()
+      screenSetup()
 
 
         return view
@@ -73,20 +72,26 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
 
     }
 
-    private fun screenSetUp(){
-        if (!locationHelper.checkPermission(act)) {
-            requestPermissions()
-        } else {
-            getLocation()
+    private fun screenSetup(){
+        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
+        val hasPermissions = locationHelper.checkPermission(act)
+
+        info("permissions are $hasPermissions")
+        info("permissions are $isNetworkAvaiable")
+
+        when (hasPermissions){
+            true -> { getLocation(isNetworkAvaiable) }
+            false -> { requestPermissions() }
         }
+
     }
 
-    private fun getLocation (){
-        if (locationHelper.isNetworkAvaiable(act)) {
+    private fun getLocation(isNetworkAvaiable: Boolean){
+        if (isNetworkAvaiable) {
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
-                    weatherRepository.getWeather(it.latitude, it.longitude)
+                    weatherRepository.getFiveDayConditions(it.latitude, it.longitude)
                     getWeatherViewModel(it.latitude, it.longitude)
 
                 }
@@ -97,19 +102,41 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
 
     }
 
+    private fun showNoNetworkAlert() {
+        alert("Network unavailable ") {
+            message = "Network need for app to work properly"
+            yesButton { val thing = locationHelper.isNetworkAvaiable(act)
+                getLocation(thing) }
+        }.show()
+    }
+
+    private fun getWeatherViewModel(lat : Double, lon: Double) =
+        weatherViewModel.getFiveDayForecast(lat, lon).observe(this, Observer { daysList ->
+            info("the five day observed conditions are $daysList")
+
+            daysList?.let {
+                weatherAdapter = WeatherAdapter(daysList, act)
+                weatherRecyclerView.adapter = weatherAdapter
+            }
+
+        })
+
     private fun requestPermissions() {
         val rxPermissions = RxPermissions(this)
 
         val disposable = rxPermissions.requestEachCombined(
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE
         )
             .debounce(1, TimeUnit.SECONDS)
             .subscribe { permission ->
                 when {
                     permission.granted -> {
-                        permissionGranted = permission.name
+
+                        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
+                        getLocation (isNetworkAvaiable)
+
+
                     }
 
                     permission.shouldShowRequestPermissionRationale -> {
@@ -129,39 +156,26 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger{
         compositeDisposable.add(disposable)
     }
 
-    private fun showNoNetworkAlert() {
-        alert("Network unavailable ") {
-            message = "Network need for app to work properly"
-            yesButton {getLocation ()  }
+
+
+    private fun showAlert() {
+        alert("Location Permission") {
+            message = "Need location permission to retrieve the weather data"
+            yesButton { requestPermissions() }
+            noButton { }
+
+
         }.show()
     }
 
-    private fun showAlert() {
-        alert("Location Permissions Needed") {
-            message = "Location permissions are need for app to function properly "
+    private fun showDenialAlert() {
+        alert("Permission denied") {
+            message = "Critical permission needed denied"
             yesButton { requestPermissions() }
             noButton { }
         }.show()
     }
 
-    private fun showDenialAlert() {
-        alert("Denial permissions") {
-            message = "Denied permission that is needed for app to function properly"
-            yesButton { }
-            noButton { }
-        }.show()
-    }
-
-    private fun getWeatherViewModel(lat : Double, lon: Double) =
-        weatherViewModel.getFiveDayForecast(lat, lon).observe(this, Observer { daysList ->
-            info("the five day observed conditions are $daysList")
-
-            daysList?.let {
-                weatherAdapter = WeatherAdapter(daysList, act)
-                weatherRecyclerView.adapter = weatherAdapter
-            }
-
-        })
 
 
 
