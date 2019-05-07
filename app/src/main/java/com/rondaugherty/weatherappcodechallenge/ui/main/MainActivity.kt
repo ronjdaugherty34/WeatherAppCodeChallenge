@@ -10,7 +10,6 @@ import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
 
 
-
 class MainActivity : AppCompatActivity(), AnkoLogger {
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 

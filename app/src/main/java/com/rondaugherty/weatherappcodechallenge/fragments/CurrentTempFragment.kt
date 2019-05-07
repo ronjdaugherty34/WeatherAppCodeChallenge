@@ -41,31 +41,24 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     private var icon = ""
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.let { weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java) }
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_current_temp, container, false)
 
+        weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
         dateTimeTextView = view.find(R.id.dateTimeTextView)
         forecastTemp = view.find(R.id.forecastTemp)
         weatherIconImageView = view.find(R.id.weatherIconImageView)
 
-      screenSetup()
-
-
+        screenSetup()
 
         return view
     }
 
 
-    private fun getWeatherViewModel(lat : Double, lon: Double) {
+    private fun getWeatherViewModel(lat: Double, lon: Double) {
         weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
 
             if (currentConditions == null) {
@@ -111,15 +104,21 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         weatherIconImageView.visibility = View.INVISIBLE
 
 
+
+
         when (hasPermissions) {
-            true -> { getLocation(isNetworkAvaiable) }
-            false -> { requestPermissions() }
+            true -> {
+                getLocation(isNetworkAvaiable)
+            }
+            false -> {
+                requestPermissions()
+            }
         }
 
 
     }
 
-    private fun getLocation (isNetworkAvaiable: Boolean){
+    private fun getLocation(isNetworkAvaiable: Boolean) {
 
 
         if (isNetworkAvaiable) {
@@ -129,9 +128,10 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                     weatherRespository.getWeather(it.latitude, it.longitude)
                     getWeatherViewModel(it.latitude, it.longitude)
 
+
                 }
             compositeDisposable.add(disposable)
-        }else {
+        } else {
             dateTimeTextView.text = getString(R.string.network_message)
             forecastTemp.visibility = View.INVISIBLE
             weatherIconImageView.visibility = View.INVISIBLE
@@ -161,9 +161,9 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                 when {
                     permission.granted -> {
                         permissionGranted = permission.name
-                        info ("per name ${permission.name}")
+                        info("per name ${permission.name}")
                         val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
-                        getLocation (isNetworkAvaiable)
+                        getLocation(isNetworkAvaiable)
 
 
                     }
@@ -191,7 +191,7 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
             yesButton {
                 val thing = locationHelper.isNetworkAvaiable(act)
                 getLocation(thing)
-                  }
+            }
         }.show()
     }
 
@@ -213,7 +213,11 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         }.show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        screenSetup()
 
+    }
 
 
 }
