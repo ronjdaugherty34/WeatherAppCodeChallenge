@@ -25,7 +25,7 @@ class WeatherAdapter (private var dayList: List<Days>, val context: Context) : R
         return WeatherViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int = dayList.size
+    override fun getItemCount(): Int = dayList.size -1
 
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
