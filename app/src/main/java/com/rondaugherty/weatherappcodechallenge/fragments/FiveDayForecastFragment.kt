@@ -21,6 +21,8 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.yesButton
 
 
 class FiveDayForecastFragment : Fragment(), AnkoLogger {
@@ -65,15 +67,21 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger {
     }
 
     private fun getLocation() {
+        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
 
-        val disposable = locationHelper.getLocation(act)
-            .subscribeOn(Schedulers.io())
-            .subscribe {
-                weatherRepository.getFiveDayConditions(it.latitude, it.longitude)
-                getWeatherForecastViewModel(it.latitude, it.longitude)
+        if (isNetworkAvaiable) {
 
-            }
-        compositeDisposable.add(disposable)
+            val disposable = locationHelper.getLocation(act)
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    weatherRepository.getFiveDayConditions(it.latitude, it.longitude)
+                    getWeatherForecastViewModel(it.latitude, it.longitude)
+
+                }
+            compositeDisposable.add(disposable)
+        } else {
+            showNoNetworkAlert()
+        }
 
 
     }
@@ -91,6 +99,15 @@ class FiveDayForecastFragment : Fragment(), AnkoLogger {
         })
     }
 
+    private fun showNoNetworkAlert() {
+        alert("Network unavailable ") {
+            message = "Network need for app to work properly"
+            yesButton {
+
+                getLocation()
+            }
+        }.show()
+    }
 
     override fun onResume() {
         super.onResume()
