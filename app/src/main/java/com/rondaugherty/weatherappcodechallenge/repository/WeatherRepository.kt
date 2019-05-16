@@ -7,10 +7,10 @@ import com.rondaugherty.weatherappcodechallenge.model.Days
 import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
 import com.rondaugherty.weatherappcodechallenge.networking.WebService
 import io.reactivex.Observable
+import io.reactivex.Observable.create
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.wtf
@@ -20,7 +20,7 @@ class WeatherRepository : AnkoLogger {
 
     fun getWeather(lat: Double, lon: Double): Observable<CurrentConditions> {
 
-        return BehaviorSubject.create<CurrentConditions> { emitter ->
+        return create { emitter ->
 
             val disposable = WebService.getAPIService().getCurrentConditions(
                 lat = lat,
@@ -29,6 +29,7 @@ class WeatherRepository : AnkoLogger {
                 apiKey = Utils.APPID
             )
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
                 .subscribeBy(
                     onSuccess = ({ response ->
                         response.body()?.let { it ->
@@ -47,14 +48,15 @@ class WeatherRepository : AnkoLogger {
 
     fun getFiveDayConditions(lat: Double, lon: Double): Observable<List<Days>> {
 
-        return BehaviorSubject.create { emitter ->
+        return create { emitter ->
             val disposable = WebService.getAPIService().getFiveDayForecast(
                 lat = lat,
                 lon = lon,
                 units = "imperial",
                 apiKey = Utils.APPID
             )
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
                 .subscribeBy(
                     onSuccess = ({ response ->
                         response.body()?.let {
@@ -85,7 +87,7 @@ class WeatherRepository : AnkoLogger {
 
     fun clearObservers() {
         compositeDisposable.clear()
-        //
+
     }
 
 }
