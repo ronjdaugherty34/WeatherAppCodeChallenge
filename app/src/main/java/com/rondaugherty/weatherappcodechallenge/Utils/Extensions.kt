@@ -1,5 +1,6 @@
 package com.rondaugherty.weatherappcodechallenge.Utils
 
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -20,4 +21,16 @@ fun Long.convertLongToTimeHours(time: Long): String {
     val date = Date(time)
     val format = SimpleDateFormat("h aa")
     return format.format(date)
+}
+
+fun View.visible(){
+    visibility = View.VISIBLE
+}
+
+fun View.invisible(){
+    visibility = View.INVISIBLE
+}
+
+fun View.gone(){
+    visibility = View.GONE
 }

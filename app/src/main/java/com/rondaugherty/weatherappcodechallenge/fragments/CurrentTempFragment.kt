@@ -13,9 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rondaugherty.weatherappcodechallenge.R
-import com.rondaugherty.weatherappcodechallenge.Utils.LocationHelper
-import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToMonthDay
-import com.rondaugherty.weatherappcodechallenge.Utils.loadImg
+import com.rondaugherty.weatherappcodechallenge.Utils.*
 import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -62,12 +60,12 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
 
             if (currentConditions == null) {
-                forecastTemp.visibility = View.INVISIBLE
-                weatherIconImageView.visibility = View.INVISIBLE
+                forecastTemp.invisible()
+                weatherIconImageView.invisible()
             }
             currentConditions?.let {
-                forecastTemp.visibility = View.VISIBLE
-                weatherIconImageView.visibility = View.VISIBLE
+                forecastTemp.visible()
+                weatherIconImageView.visible()
                 icon = currentConditions.weather[0].icon
 
                 val path = "https://openweathermap.org/img/w/$icon.png"
@@ -116,9 +114,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
     }
 
     private fun getLocation(isNetworkAvaiable: Boolean) {
-
-
         if (isNetworkAvaiable) {
+
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
                 .subscribe {
@@ -130,8 +127,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
             compositeDisposable.add(disposable)
         } else {
             dateTimeTextView.text = getString(R.string.network_message)
-            forecastTemp.visibility = View.INVISIBLE
-            weatherIconImageView.visibility = View.INVISIBLE
+            forecastTemp.invisible()
+            weatherIconImageView.invisible()
             showNoNetworkAlert()
         }
 
@@ -142,8 +139,6 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         compositeDisposable.clear()
         weatherRespository.clearObservers()
         weatherViewModel.clearObservers()
-
-
     }
 
     private fun requestPermissions() {
