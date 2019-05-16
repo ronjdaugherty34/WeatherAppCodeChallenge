@@ -113,8 +113,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
     }
 
-    private fun getLocation(isNetworkAvaiable: Boolean) {
-        if (isNetworkAvaiable) {
+    private fun getLocation(isNetworkAvailable: Boolean) {
+        if (isNetworkAvailable) {
 
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
