@@ -26,7 +26,7 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
     fun getCurrentWeather(lat: Double, lon: Double): MutableLiveData<CurrentConditions> {
         val disposable = weatherRepository.getWeather(lat, lon)
             .subscribeOn(Schedulers.io())
-
+            .observeOn(Schedulers.io())
             .subscribeBy(
                 onNext = ({ currentConditions ->
                     weatherCurrentLiveData.postValue(currentConditions)
@@ -42,7 +42,7 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
     fun getFiveDayForecast(lat: Double, lon: Double): MutableLiveData<List<Days>> {
         val disposable = weatherRepository.getFiveDayConditions(lat, lon)
             .subscribeOn(Schedulers.io())
-
+            .observeOn(Schedulers.io())
             .subscribeBy {
                 info { "about to post value to current  5 day conditions" }
                 weatherFiveDayLiveData.postValue(it)

@@ -8,12 +8,327 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/build/tmp/kapt3/stubs/debug/com/rondaugherty/bottlerocketchallenge/db/StoreDataBase.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/build/tmp/kapt3/stubs/debug/com/rondaugherty/bottlerocketchallenge/db/StoreDataDao.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/MainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/MainApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/MyApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/RxBus/RxBus.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/Utils/Extensions.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/Utils/MyApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/Utils/Utils.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/db/StoreDataBase.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/db/StoreDataDao.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/model/LogLevel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/model/Store.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/model/StoreData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/model/StoreX.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/networking/APIService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/networking/WebService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/repository/StoreRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/java/com/rondaugherty/bottlerocketchallenge/viewmodel/StoreViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/main/res/layout/activity_main.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/app/src/test/java/com/rondaugherty/bottlerocketchallenge/repository/StoreRepositoryTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/buildSrc/build.gradle.kts">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/buildSrc/src/main/kotlin/Dependencies.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/gradle.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../BottleRocketChallenge/gradle/wrapper/gradle-wrapper.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/androidTest/java/com/rondaugherty/perfectpool/viewmodel/ReadingsViewModelTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/DateFormatter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/ExtensionFunctions.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/Extensions.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/JsonUtil.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/TestViewModelObserver.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/TimeExtentions.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/Utils/XAxisValueFormatter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/activities/BaseActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/activities/LoginActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/adapter/ReadingAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/codechallenge/WeatherAdapter.kt">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/fragments/AddReadingBottomModalFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/fragments/AddReadingFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/fragments/ReadingsDetailBottomSheetFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/fragments/ReadingsDetailFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/model/Reading.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/repository/FirebaseRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/repository/ReadingsRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/java/com/rondaugherty/perfectpool/viewmodel/ReadingsViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/activity_base.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/activity_login.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/fragment_add_reading_bottom_modal.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/fragment_dashboard.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/fragment_readings_detail.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/layout/reading_list_item.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/menu/settings.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/values/colors.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/main/res/values/styles.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/test/java/com/rondaugherty/perfectpool/activities/LoginActivityTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../PerfectPool/app/src/test/java/com/rondaugherty/perfectpool/repository/FirebaseRepositoryTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/test/java/com/rondaugherty/perfectpool/repository/ReadingsRepositoryTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/app/src/test/java/com/rondaugherty/perfectpool/viewmodel/ReadingsViewModelTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../PerfectPool/buildSrc/src/main/kotlin/Dependencies.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../SynergyFiberIoTApp/app/src/main/java/com/synergyfiber/iot/utils/JsonUtil.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../SynergyFiberIoTApp/app/src/main/res/layout/activity_base.xml">
           <value>
             <set />
           </value>
@@ -54,6 +369,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/DateFormatter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/Extensions.kt">
           <value>
             <set />
           </value>
@@ -254,6 +574,36 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/KedditBySteps-master/app/src/main/java/com/droidcba/kedditbysteps/api/NewsAPI.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/KedditBySteps-master/app/src/main/java/com/droidcba/kedditbysteps/api/NewsRestAPI.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/KedditBySteps-master/app/src/main/java/com/droidcba/kedditbysteps/api/RedditApi.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/KedditBySteps-master/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/SmallVictories/BottleRocketCodeChallenge/app/src/main/java/com/rondaugherty/bottlerocketcodechallenge/MainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/SmallVictories/final/build.gradle">
           <value>
             <set />
           </value>

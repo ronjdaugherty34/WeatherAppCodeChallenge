@@ -1,7 +1,7 @@
 package com.rondaugherty.weatherappcodechallenge.repository
 
-import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
 import com.rondaugherty.weatherappcodechallenge.Utils.Utils
+import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToMonthDay
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
 import com.rondaugherty.weatherappcodechallenge.model.Days
 import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
@@ -75,7 +75,7 @@ class WeatherRepository : AnkoLogger {
     internal fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
         val dayList = mutableListOf<Days>()
         val oneDayList = fiveDayForecast.forecastList
-            .groupBy { DateFormatter.convertLongToMonthDay(it.dt.toLong() * 1000) }
+            .groupBy { (it.dt.toLong()).convertLongToMonthDay(it.dt.toLong() * 1000) }
 
         for ((k, v) in oneDayList) {
             dayList.add(Days(k, v))

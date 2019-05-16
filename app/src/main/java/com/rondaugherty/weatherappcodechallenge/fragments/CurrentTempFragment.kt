@@ -12,10 +12,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
 import com.rondaugherty.weatherappcodechallenge.R
-import com.rondaugherty.weatherappcodechallenge.Utils.DateFormatter
 import com.rondaugherty.weatherappcodechallenge.Utils.LocationHelper
+import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToMonthDay
+import com.rondaugherty.weatherappcodechallenge.Utils.loadImg
 import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -73,14 +73,11 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
                 val path = "https://openweathermap.org/img/w/$icon.png"
                 val uri = Uri.parse(path)
 
-
-                Glide.with(act)
-                    .load(uri)
-                    .into(weatherIconImageView)
+                weatherIconImageView.loadImg(uri.toString())
 
                 dateTimeTextView.text = getString(
                     R.string.date_text,
-                    DateFormatter.convertLongToMonthDay(currentConditions.dt.toLong() * 1000)
+                    (currentConditions.dt.toLong()).convertLongToMonthDay(currentConditions.dt.toLong() * 1000)
                 )
 
                 forecastTemp.text = getString(R.string.temp, currentConditions.main.temp.roundToInt().toString())
