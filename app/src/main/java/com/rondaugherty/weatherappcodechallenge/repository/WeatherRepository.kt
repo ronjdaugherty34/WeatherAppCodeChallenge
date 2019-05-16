@@ -85,6 +85,7 @@ class WeatherRepository : AnkoLogger {
 
     fun clearObservers() {
         compositeDisposable.clear()
+        //
     }
 
 }
