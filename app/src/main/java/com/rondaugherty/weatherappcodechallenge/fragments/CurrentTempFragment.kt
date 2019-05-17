@@ -85,6 +85,8 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
 
         })
+
+
     }
 
 
@@ -97,9 +99,6 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         dateTimeTextView.text = getString(R.string.network_message)
         forecastTemp.visibility = View.INVISIBLE
         weatherIconImageView.visibility = View.INVISIBLE
-
-
-
 
         when (hasPermissions) {
             true -> {

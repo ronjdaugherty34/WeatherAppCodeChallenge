@@ -48,8 +48,6 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
     }
 
 
-
-
     fun clearObservers() {
         compositeDisposable.clear()
     }

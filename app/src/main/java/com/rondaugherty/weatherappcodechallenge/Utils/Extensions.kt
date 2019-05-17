@@ -9,8 +9,6 @@ import java.util.*
 
 fun ImageView.loadImg(imageUrl: String) = Glide.with(context).load(imageUrl).into(this)
 
-
-
 fun Long.convertLongToMonthDay(time: Long): String {
     val date = Date(time)
     val format = SimpleDateFormat("EEE, MMM d")
@@ -31,6 +29,4 @@ fun View.invisible(){
     visibility = View.INVISIBLE
 }
 
-fun View.gone(){
-    visibility = View.GONE
-}
+

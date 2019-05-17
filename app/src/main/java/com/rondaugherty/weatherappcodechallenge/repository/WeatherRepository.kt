@@ -74,6 +74,7 @@ class WeatherRepository : AnkoLogger {
 
     }
 
+
     internal fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
         val dayList = mutableListOf<Days>()
         val oneDayList = fiveDayForecast.forecastList

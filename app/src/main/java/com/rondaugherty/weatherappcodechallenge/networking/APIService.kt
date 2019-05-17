@@ -17,6 +17,7 @@ interface APIService {
                              @Query("APPID")  apiKey: String
     ) : Maybe<Response<CurrentConditions>>
 
+
     @GET("forecast?")
     fun getFiveDayForecast(@Query("lat")  lat:Double,
                            @Query("lon") lon: Double,
