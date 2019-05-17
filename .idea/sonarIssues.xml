@@ -413,6 +413,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/adapter/SectionsPagerAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/adapter/WeatherAdapter.kt">
           <value>
             <set />
@@ -469,6 +474,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/networking/APIService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/rondaugherty/weatherappcodechallenge/networking/MarvelWebService.kt">
           <value>
             <set />
           </value>
@@ -594,6 +604,11 @@
           </value>
         </entry>
         <entry key="$USER_HOME$/Downloads/KedditBySteps-master/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/MarvelGallery-master/app/src/main/java/com/sample/marvelgallery/data/network/providers/MD5.kt">
           <value>
             <set />
           </value>
