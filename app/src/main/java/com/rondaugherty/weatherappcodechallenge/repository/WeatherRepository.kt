@@ -11,6 +11,8 @@ import io.reactivex.Observable.create
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.wtf
@@ -45,6 +47,38 @@ class WeatherRepository : AnkoLogger {
 
 
     }
+
+    fun getCurrentWeather(lat: Double, lon: Double): Flow<CurrentConditions> {
+        return flow {
+
+        }
+
+//        return create { emitter ->
+//
+//            val disposable = WebService.getAPIService().getCurrentConditions(
+//                lat = lat,
+//                lon = lon,
+//                units = "imperial",
+//                apiKey = Utils.APPID
+//            )
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(Schedulers.io())
+//                .subscribeBy(
+//                    onSuccess = ({ response ->
+//                        response.body()?.let { it ->
+//                            emitter.onNext(it)
+//                        }
+//                    }),
+//                    onError = ({ wtf("Error with fetching weather data response ${it.printStackTrace()}") }),
+//                    onComplete = ({ info("fetching weather data complete") })
+//
+//                )
+//            compositeDisposable.add(disposable)
+//        }
+
+
+    }
+
 
     fun getFiveDayConditions(lat: Double, lon: Double): Observable<List<Days>> {
 
