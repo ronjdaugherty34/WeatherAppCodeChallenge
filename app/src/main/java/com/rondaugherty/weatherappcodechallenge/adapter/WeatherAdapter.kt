@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.model.Days
+import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
 import kotlinx.android.synthetic.main.parent_recycler.view.*
 import org.jetbrains.anko.AnkoLogger
 
@@ -33,12 +34,10 @@ class WeatherAdapter (private var dayList: List<Days>, val context: Context) : R
         val day = dayList[position]
         holder.textView.text = day.day
         holder.recyclerView.apply {
-            layoutManager = LinearLayoutManager(holder.recyclerView.context, LinearLayout.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(holder.recyclerView.context, RecyclerView.VERTICAL, false)
             adapter = ChildAdapter(day.forecastList, context)
             setRecycledViewPool(viewPool)
         }
-
-
     }
 
     inner class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

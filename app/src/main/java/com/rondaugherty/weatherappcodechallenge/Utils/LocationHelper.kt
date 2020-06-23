@@ -12,7 +12,6 @@ import org.jetbrains.anko.AnkoLogger
 
 class LocationHelper : AnkoLogger {
 
-
     fun checkPermission(context: Context): Boolean {
         return PermissionChecker.checkSelfPermission(
             context,

@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.Utils.*
@@ -19,6 +20,7 @@ import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_current_temp.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.alert
@@ -27,13 +29,8 @@ import kotlin.math.roundToInt
 
 
 class CurrentTempFragment : Fragment(), AnkoLogger {
-
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var weatherViewModel: WeatherViewModel
-    private val weatherRespository: WeatherRepository = WeatherRepository()
-    private lateinit var dateTimeTextView: TextView
-    private lateinit var forecastTemp: TextView
-    private lateinit var weatherIconImageView: ImageView
     private val locationHelper: LocationHelper = LocationHelper()
     private var permissionGranted = ""
     private var icon = ""
@@ -44,55 +41,50 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_current_temp, container, false)
-
-        weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
-        dateTimeTextView = view.find(R.id.dateTimeTextView)
-        forecastTemp = view.find(R.id.forecastTemp)
-        weatherIconImageView = view.find(R.id.weatherIconImageView)
-
+        weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         screenSetup()
+        getWeatherViewObserver()
 
         return view
     }
 
 
-    private fun getWeatherViewModel(lat: Double, lon: Double) {
-        weatherViewModel.getCurrentWeather(lat, lon).observe(this, Observer { currentConditions ->
+    private fun getWeatherViewObserver() {
+        weatherViewModel.currentWeatherFlow.observe(
+            viewLifecycleOwner,
+            Observer { currentConditions ->
 
-            if (currentConditions == null) {
-                forecastTemp.invisible()
-                weatherIconImageView.invisible()
-            }
-            currentConditions?.let {
-                forecastTemp.visible()
-                weatherIconImageView.visible()
-                icon = currentConditions.weather[0].icon
+                if (currentConditions == null) {
+                    forecastTemp.invisible()
+                    weatherIconImageView.invisible()
+                }
+                currentConditions?.let {
+                    forecastTemp.visible()
+                    weatherIconImageView.visible()
+                    icon = currentConditions.weather[0].icon
 
-                val path = "https://openweathermap.org/img/w/$icon.png"
-                val uri = Uri.parse(path)
+                    val path = "https://openweathermap.org/img/w/$icon.png"
+                    val uri = Uri.parse(path)
 
-                weatherIconImageView.loadImg(uri.toString())
+                    weatherIconImageView.loadImg(uri.toString())
 
-                dateTimeTextView.text = getString(
-                    R.string.date_text,
-                    (currentConditions.dt.toLong()).convertLongToMonthDay(currentConditions.dt.toLong() * 1000)
-                )
+                    dateTimeTextView.text = getString(
+                        R.string.date_text,
+                        (currentConditions.dt.toLong()).convertLongToMonthDay(currentConditions.dt.toLong() * 1000)
+                    )
 
-                forecastTemp.text = getString(R.string.temp, currentConditions.main.temp.roundToInt().toString())
-
-
-            }
-
-
-        })
-
-
+                    forecastTemp.text = getString(
+                        R.string.temp,
+                        currentConditions.main.temp.roundToInt().toString()
+                    )
+                }
+            })
     }
 
 
     private fun screenSetup() {
-        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(act)
-        val hasPermissions = locationHelper.checkPermission(act)
+        val isNetworkAvaiable = locationHelper.isNetworkAvaiable(requireContext())
+        val hasPermissions = locationHelper.checkPermission(requireContext())
         info("permissions are $hasPermissions")
         info("permissions are $isNetworkAvaiable")
 
@@ -114,14 +106,10 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
 
     private fun getLocation(isNetworkAvailable: Boolean) {
         if (isNetworkAvailable) {
-
             val disposable = locationHelper.getLocation(act)
                 .subscribeOn(Schedulers.io())
-                .subscribe {
-                    weatherRespository.getWeather(it.latitude, it.longitude)
-                    getWeatherViewModel(it.latitude, it.longitude)
-
-
+                .subscribe { location ->
+                    weatherViewModel.setLatLon(location.latitude, location.longitude)
                 }
             compositeDisposable.add(disposable)
         } else {
@@ -131,13 +119,6 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
             showNoNetworkAlert()
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
-        weatherRespository.clearObservers()
-        weatherViewModel.clearObservers()
     }
 
     private fun requestPermissions() {
@@ -180,7 +161,7 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         alert("Network unavailable ") {
             message = "Network need for app to work properly"
             yesButton {
-                val thing = locationHelper.isNetworkAvaiable(act)
+                val thing = locationHelper.isNetworkAvaiable(requireContext())
                 getLocation(thing)
             }
         }.show()
@@ -209,6 +190,4 @@ class CurrentTempFragment : Fragment(), AnkoLogger {
         screenSetup()
 
     }
-
-
 }
