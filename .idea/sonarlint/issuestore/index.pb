@@ -96,11 +96,3 @@ Rapp/src/main/java/com/rondaugherty/weatherappcodechallenge/adapter/ChildAdapter
 Sapp/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/CustomViewPager.kt,1/9/198a0761d6ca1b8f759d042cb83b756a3e77c25a
 ~
 Napp/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/Extensions.kt,9/6/96ac436970862b33722d7d3e8caa8414e0731652
-z
-Japp/src/main/java/com/rondaugherty/weatherappcodechallenge/model/Comics.kt,0/c/0cdd14ff4002c986c64db2821a0db24414608856
-x
-Happ/src/main/java/com/rondaugherty/weatherappcodechallenge/model/Data.kt,5/a/5afe92485d89c6a22407349fed658c705a292e6a
-‰
-Yapp/src/main/java/com/rondaugherty/weatherappcodechallenge/networking/MarvelWebService.kt,6/a/6a1827f97978e5a542c1b3b024f5f4c592c0253d
-~
-Napp/src/main/java/com/rondaugherty/weatherappcodechallenge/model/Characters.kt,0/9/09cb10b0567de25a0304f8bee091b5b42a3a9b7d
