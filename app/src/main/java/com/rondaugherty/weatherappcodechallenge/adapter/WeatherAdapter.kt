@@ -11,7 +11,7 @@ import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.model.Days
 
 
-class WeatherAdapter(private var dayList: List<Days>, val context: Context) :
+class WeatherAdapter(private val dayList: List<Days>, val context: Context) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -23,12 +23,12 @@ class WeatherAdapter(private var dayList: List<Days>, val context: Context) :
         return WeatherViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int = dayList.size -1
+    override fun getItemCount(): Int = dayList.size
 
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
 
-//        val day = dayList[position]
+        val day = dayList[position]
 //        holder.textView.text = day.day
 //        holder.recyclerView.apply {
 //            layoutManager = LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
@@ -36,12 +36,19 @@ class WeatherAdapter(private var dayList: List<Days>, val context: Context) :
 //            setRecycledViewPool(viewPool)
 //        }
 
+        holder.textView.text = day.day
+        holder.recyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
+            adapter = ChildAdapter(day.forecastList, context)
+            setRecycledViewPool(viewPool)
+        }
+
 
     }
 
     inner class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val recyclerView : RecyclerView = itemView.rv_child
-//        val textView: TextView = itemView.parentTextView
-
+        val recyclerView: RecyclerView = itemView.findViewById(R.id.rv_child)
+        var textView: TextView = itemView.findViewById(R.id.parentTextView)
     }
 }

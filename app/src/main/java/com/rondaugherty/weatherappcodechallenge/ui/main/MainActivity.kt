@@ -20,12 +20,9 @@ import com.rondaugherty.weatherappcodechallenge.Utils.showSnackbar
 import com.rondaugherty.weatherappcodechallenge.adapter.SectionsPagerAdapter
 import com.rondaugherty.weatherappcodechallenge.databinding.ActivityMainBinding
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
-import io.reactivex.disposables.CompositeDisposable
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var layout: View
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
     private val viewPager: CustomViewPager by lazy { findViewById(R.id.view_pager) }
     private val sectionsPagerAdapter: SectionsPagerAdapter by lazy {
         SectionsPagerAdapter(
@@ -46,6 +43,13 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         layout = binding.mainLayout
         setContentView(view)
+
+        with(viewPager) {
+            adapter = sectionsPagerAdapter
+            setPagingEnabled(false)
+        }
+
+        tabs.setupWithViewPager(viewPager)
 
         requestPermission(view)
 
@@ -77,21 +81,15 @@ class MainActivity : AppCompatActivity() {
 
                 location?.let {
                     weatherViewModel.setLocationLiveData(it.latitude, it.longitude)
+                    weatherViewModel.getCurrentWeather()
+                    weatherViewModel.getFiveDayForecast()
                 }
             }
 
 
-
-        with(viewPager) {
-            adapter = sectionsPagerAdapter
-            setPagingEnabled(false)
-        }
-
-        tabs.setupWithViewPager(viewPager)
-
     }
 
-    val requestPermissionLauncher =
+    private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->

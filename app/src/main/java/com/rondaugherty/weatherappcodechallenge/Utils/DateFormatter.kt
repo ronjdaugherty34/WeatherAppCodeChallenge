@@ -16,7 +16,4 @@ object DateFormatter {
         return format.format(date)
     }
 
-
-
-
 }

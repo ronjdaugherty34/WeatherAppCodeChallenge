@@ -8,7 +8,7 @@ import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.fragments.CurrentTempFragment
 import com.rondaugherty.weatherappcodechallenge.fragments.FiveDayForecastFragment
 
-private val TAB_TITLES = arrayOf(
+private val TAB_TITLES = listOf<Int>(
     R.string.tab_text_1,
     R.string.tab_text_2
 )

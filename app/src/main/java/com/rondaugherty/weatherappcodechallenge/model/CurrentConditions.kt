@@ -2,90 +2,89 @@ package com.rondaugherty.weatherappcodechallenge.model
 
 import com.google.gson.annotations.SerializedName
 
-data class FiveDayForecast (
+data class FiveDayForecast(
     @SerializedName("list")
-    var forecastList : List<CurrentConditions>
+    val forecastList: List<CurrentConditions>
 )
+
 data class CurrentConditions(
     @SerializedName("clouds")
-
-
-    var clouds: Clouds,
+    val clouds: Clouds,
     @SerializedName("cod")
-    var cod: Int,
+    val cod: Int,
     @SerializedName("coord")
-    var coord: Coord,
+    val coord: Coord,
     @SerializedName("dt")
-    var dt: Int,
+    val dt: Int,
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("main")
-    var main: Main,
+    val main: Main,
     @SerializedName("name")
-    var name: String,
+    val name: String,
     @SerializedName("rain")
-    var rain: Rain,
+    val rain: Rain,
     @SerializedName("sys")
-    var sys: Sys,
+    val sys: Sys,
     @SerializedName("weather")
-    var weather: List<Weather>,
+    val weather: List<Weather>,
     @SerializedName("wind")
-    var wind: Wind
+    val wind: Wind
 )
 
 data class Sys(
     @SerializedName("country")
-    var country: String,
+    val country: String,
     @SerializedName("sunrise")
-    var sunrise: Int,
+    val sunrise: Int,
     @SerializedName("sunset")
-    var sunset: Int
+    val sunset: Int
 )
 
 data class Rain(
     @SerializedName("3h")
-    var h: Double
+    val h: Double
 )
 
 data class Weather(
     @SerializedName("description")
-    var description: String,
+    val description: String,
     @SerializedName("icon")
-    var icon: String,
+    val icon: String,
     @SerializedName("id")
-    var id: Int,
+    val id: Int,
     @SerializedName("main")
-    var main: String
+    val main: String
 )
 
 data class Clouds(
     @SerializedName("all")
-    var all: Int
+    val all: Int
 )
 
 data class Coord(
     @SerializedName("lat")
-    var lat: Double,
+    val lat: Double,
     @SerializedName("lon")
-    var lon: Double
+    val lon: Double
 )
 
 data class Main(
     @SerializedName("humidity")
-    var humidity: Int,
+    val humidity: Int,
     @SerializedName("pressure")
-    var pressure: Double,
+    val pressure: Double,
     @SerializedName("temp")
-    var temp: Double,
+    val temp: Double,
     @SerializedName("temp_max")
-    var tempMax: Double,
+    val tempMax: Double,
     @SerializedName("temp_min")
-    var tempMin: Double
+    val tempMin: Double
 )
 
 data class Wind(
     @SerializedName("deg")
-    var deg: Double,
+    val deg: Double,
     @SerializedName("speed")
-    var speed: Double
+    val speed: Double
 )
