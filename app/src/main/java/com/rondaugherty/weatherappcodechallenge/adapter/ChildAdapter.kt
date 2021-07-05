@@ -12,15 +12,15 @@ import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToTimeHours
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.weather_item_row.view.*
-import org.jetbrains.anko.AnkoLogger
+
+
 import kotlin.math.roundToInt
 
-class ChildAdapter(private val children: List<CurrentConditions>, val context: Context) : RecyclerView.Adapter<ChildAdapter.ViewHolder>(),
-    AnkoLogger {
+class ChildAdapter(private val children: List<CurrentConditions>, val context: Context) :
+    RecyclerView.Adapter<ChildAdapter.ViewHolder>() {
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,19 +41,19 @@ class ChildAdapter(private val children: List<CurrentConditions>, val context: C
         val uri = Uri.parse(
             path
         )
-        val disposable = Observable.fromCallable {  Glide.with(context) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                it.load(uri).into(holder.itemView.fiveDayWeatherIconImageView)
+//        val disposable = Observable.fromCallable {  Glide.with(context) }
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe {
+//                it.load(uri).into(holder.itemView.fiveDayWeatherIconImageView)
+//
+//            }
+//        compositeDisposable.add(disposable)
 
-            }
-        compositeDisposable.add(disposable)
 
-
-        holder.textView2.text = (child.dt.toLong()).convertLongToTimeHours(child.dt.toLong() * 1000)
-
-        holder.textView3.text = "${child.main.temp.roundToInt()}°"
+//        holder.textView2.text = (child.dt.toLong()).convertLongToTimeHours(child.dt.toLong() * 1000)
+//
+//        holder.textView3.text = "${child.main.temp.roundToInt()}°"
 
     }
 
@@ -61,8 +61,8 @@ class ChildAdapter(private val children: List<CurrentConditions>, val context: C
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
-        val textView2: TextView = itemView.fiveTimeTextView
-        val textView3: TextView = itemView.fiveDayForecastTemp
+//        val textView2: TextView = itemView.fiveTimeTextView
+//        val textView3: TextView = itemView.fiveDayForecastTemp
 
 
     }

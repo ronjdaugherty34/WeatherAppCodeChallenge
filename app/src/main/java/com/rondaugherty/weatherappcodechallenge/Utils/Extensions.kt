@@ -3,6 +3,7 @@ package com.rondaugherty.weatherappcodechallenge.Utils
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,12 +22,33 @@ fun Long.convertLongToTimeHours(time: Long): String {
     return format.format(date)
 }
 
-fun View.visible(){
+fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.invisible(){
+fun View.invisible() {
     visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.showSnackbar(
+    view: View,
+    msg: String,
+    length: Int,
+    actionMessage: CharSequence?,
+    action: (View) -> Unit
+) {
+    val snackBar = Snackbar.make(view, msg, length)
+    if (actionMessage != null) {
+        snackBar.setAction(actionMessage) {
+            action(this)
+        }.show()
+    } else {
+        snackBar.show()
+    }
 }
 
 

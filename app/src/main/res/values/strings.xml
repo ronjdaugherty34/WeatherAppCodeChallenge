@@ -12,4 +12,6 @@
     <string name="time">time</string>
     <string name="forecasttemp">forecastTemp</string>
     <string name="weather_icon">weather icon</string>
+    <string name="ok">OK</string>
+    <string name="permission_required">Location access is required to show your location weather conditions.</string>
 </resources>
