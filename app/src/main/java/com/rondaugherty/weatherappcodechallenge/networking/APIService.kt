@@ -2,7 +2,6 @@ package com.rondaugherty.weatherappcodechallenge.networking
 
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
 import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
-import io.reactivex.Maybe
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

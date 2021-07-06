@@ -26,16 +26,4 @@ class WeatherRepository {
             apiKey = Utils.APPID
         )
     }
-
-
-    internal fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
-        val dayList = mutableListOf<Days>()
-        val oneDayList = fiveDayForecast.forecastList
-            .groupBy { (it.dt.toLong()).convertLongToMonthDay(it.dt.toLong() * 1000) }
-
-        for ((k, v) in oneDayList) {
-            dayList.add(Days(k, v))
-        }
-        return dayList
-    }
 }

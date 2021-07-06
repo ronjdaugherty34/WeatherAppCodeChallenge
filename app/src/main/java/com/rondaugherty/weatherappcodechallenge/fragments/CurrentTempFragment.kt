@@ -15,6 +15,7 @@ import com.rondaugherty.weatherappcodechallenge.Utils.invisible
 import com.rondaugherty.weatherappcodechallenge.Utils.loadImg
 import com.rondaugherty.weatherappcodechallenge.Utils.visible
 import com.rondaugherty.weatherappcodechallenge.viewmodel.WeatherViewModel
+import kotlin.math.roundToInt
 
 class CurrentTempFragment : Fragment() {
 
@@ -65,7 +66,7 @@ class CurrentTempFragment : Fragment() {
 
                     forecastTemp.text = getString(
                         R.string.temp,
-                        currentConditions.main.temp.toString()
+                        currentConditions.main.temp.roundToInt().toString()
                     )
 
                 }

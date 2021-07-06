@@ -11,8 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

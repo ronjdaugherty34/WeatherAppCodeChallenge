@@ -23,7 +23,6 @@ class WeatherViewModel : ViewModel() {
     private val _weatherFiveDayLiveData: MutableLiveData<List<Days>> = MutableLiveData()
     val weatherFiveDayLiveData: LiveData<List<Days>> = _weatherFiveDayLiveData
     private val _locationLiveData = MutableLiveData<UserLocation>()
-    val locationLiveData: LiveData<UserLocation> = _locationLiveData
     private val _permissionState = MutableStateFlow(false)
     val permissionState: StateFlow<Boolean> = _permissionState
 
@@ -39,8 +38,8 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch {
             val response = runCatching {
                 withContext(Dispatchers.IO) {
-                    _locationLiveData.value?.latitude?.let {
-                        _locationLiveData.value?.longitude?.let { it1 ->
+                    _locationLiveData.value?.longitude?.let {
+                        _locationLiveData.value?.latitude?.let { it1 ->
                             weatherRepository.getWeather(
                                 it,
                                 it1
@@ -53,7 +52,6 @@ class WeatherViewModel : ViewModel() {
             response.onSuccess { thing ->
                 thing?.body()?.let {
                     _weatherCurrentLiveData.value = it
-                    Timber.d("ron the weather is ${_weatherCurrentLiveData.value}")
                 }
             }
             response.onFailure {
@@ -66,8 +64,8 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch {
             val response = kotlin.runCatching {
                 withContext(Dispatchers.IO) {
-                    _locationLiveData.value?.latitude?.let {
-                        _locationLiveData.value?.longitude?.let { it1 ->
+                    _locationLiveData.value?.longitude?.let {
+                        _locationLiveData.value?.latitude?.let { it1 ->
                             weatherRepository.getFiveDayConditions(
                                 it, it1
                             )

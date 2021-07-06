@@ -5,17 +5,16 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="2dp"
+        card_view:cardElevation="4dp"
         card_view:cardBackgroundColor="#fff"
         card_view:cardCornerRadius="5dp"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        tools:context=".fragments.FiveDayForecastFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
         <TextView
                 android:id="@+id/parentTextView"
@@ -23,24 +22,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-
-
-                android:padding="20dp"
                 android:text="Hello World"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_child"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal"
-                android:padding="20dp"
-                tools:layout_editor_absoluteX="74dp" />
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/parentTextView"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
 
-    </RelativeLayout>
+                />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

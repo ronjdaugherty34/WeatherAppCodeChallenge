@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
     private val tabs: TabLayout by lazy { findViewById(R.id.tabs) }
     private lateinit var binding: ActivityMainBinding
     private val weatherViewModel: WeatherViewModel by viewModels<WeatherViewModel>()
-
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(
+            this
+        )
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +55,6 @@ class MainActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
 
         requestPermission(view)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -86,8 +87,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-
     }
+
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -141,6 +142,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }
