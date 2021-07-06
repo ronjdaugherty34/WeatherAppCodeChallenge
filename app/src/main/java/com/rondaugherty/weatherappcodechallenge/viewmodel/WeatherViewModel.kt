@@ -1,101 +1,89 @@
 package com.rondaugherty.weatherappcodechallenge.viewmodel
 
 import androidx.lifecycle.*
-import com.rondaugherty.weatherappcodechallenge.Utils.Utils
 import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToMonthDay
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
 import com.rondaugherty.weatherappcodechallenge.model.Days
 import com.rondaugherty.weatherappcodechallenge.model.FiveDayForecast
-import com.rondaugherty.weatherappcodechallenge.networking.WebService
+import com.rondaugherty.weatherappcodechallenge.model.UserLocation
+import com.rondaugherty.weatherappcodechallenge.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.AnkoLogger
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-class WeatherViewModel : ViewModel(), AnkoLogger {
 
-    private val latLiveData = MutableLiveData<Double>()
-    private val lonLiveData = MutableLiveData<Double>()
+class WeatherViewModel : ViewModel() {
 
-    val setLatLon : (lat : Double, lon : Double) -> Unit = {lat, lon ->
-        latLiveData.value = lat
-        lonLiveData.value = lon
+    private val weatherRepository: WeatherRepository = WeatherRepository()
+    private val _weatherCurrentLiveData: MutableLiveData<CurrentConditions> = MutableLiveData()
+    val weatherCurrentLiveData: LiveData<CurrentConditions> = _weatherCurrentLiveData
+    private val _weatherFiveDayLiveData: MutableLiveData<List<Days>> = MutableLiveData()
+    val weatherFiveDayLiveData: LiveData<List<Days>> = _weatherFiveDayLiveData
+    private val _locationLiveData = MutableLiveData<UserLocation>()
+    private val _permissionState = MutableStateFlow(false)
+    val permissionState: StateFlow<Boolean> = _permissionState
+
+    fun setPermissionState(hasPermissions: Boolean) {
+        _permissionState.value = hasPermissions
     }
 
-    @ExperimentalCoroutinesApi
-    val currentWeatherFlow: LiveData<CurrentConditions> =
-        getCurrentWeatherFlow().flowOn(Dispatchers.IO).asLiveData()
+    fun setLocationLiveData(lat: Double, lon: Double) {
+        _locationLiveData.value = UserLocation(lat, lon)
+    }
 
-    fun getCurrentWeatherFlow(): kotlinx.coroutines.flow.Flow<CurrentConditions> {
-        return flow {
-            if (viewModelScope.isActive) {
-                try {
-                    val result = runCatching {
-                        withContext(Dispatchers.IO) {
-                            WebService.getAPIService().getCurrentConditions(
-                                lat = latLiveData.value,
-                                lon = lonLiveData.value,
-                                units = "imperial",
-                                apiKey = Utils.APPID
+    fun getCurrentWeather() {
+        viewModelScope.launch {
+            val response = runCatching {
+                withContext(Dispatchers.IO) {
+                    _locationLiveData.value?.longitude?.let {
+                        _locationLiveData.value?.latitude?.let { it1 ->
+                            weatherRepository.getWeather(
+                                it,
+                                it1
                             )
                         }
                     }
-                    result.onSuccess { response ->
-                        if (response.isSuccessful) {
-                            emit(requireNotNull(response.body()!!))
-                        }
-                    }
-                    result.onFailure {t ->
-                        Timber.wtf(" the error with current conditions response urls ${t.message} ")
-                    }
-                } catch (e: Exception) {
-                    Timber.wtf(" the error with current conditions response urls ${e.message} ")
                 }
+            }
+
+            response.onSuccess { thing ->
+                thing?.body()?.let {
+                    _weatherCurrentLiveData.value = it
+                }
+            }
+            response.onFailure {
+
             }
         }
     }
 
-    @ExperimentalCoroutinesApi
-    val fiveDayForecastFlow : LiveData<List<Days>> = getFiveDayForecastFlow().flowOn(Dispatchers.IO).map {
-        sortConditions(it)
-    }.asLiveData()
-
-    fun getFiveDayForecastFlow(): Flow<FiveDayForecast> {
-        return flow {
-            if (viewModelScope.isActive) {
-                try {
-                    val result = runCatching {
-                        withContext(Dispatchers.IO) {
-                            WebService.getAPIService().getFiveDayForecast(
-                                lat = latLiveData.value,
-                                lon = lonLiveData.value,
-                                units = "imperial",
-                                apiKey = Utils.APPID
+    fun getFiveDayForecast() {
+        viewModelScope.launch {
+            val response = kotlin.runCatching {
+                withContext(Dispatchers.IO) {
+                    _locationLiveData.value?.longitude?.let {
+                        _locationLiveData.value?.latitude?.let { it1 ->
+                            weatherRepository.getFiveDayConditions(
+                                it, it1
                             )
                         }
                     }
-                    result.onSuccess { response ->
-                        if (response.isSuccessful) {
-                            emit(requireNotNull(response.body()!!))
-                        }
-                    }
-                    result.onFailure {t ->
-                        Timber.wtf(" the error with 5 day conditions response urls ${t.message} ")
-                    }
-                } catch (e: Exception) {
-                    Timber.wtf(" the error with 5 day conditions response urls ${e.message} ")
                 }
             }
+
+            response.onSuccess { it ->
+                it?.body()?.let { fiveDayForecast ->
+                    _weatherFiveDayLiveData.value = sortConditions(fiveDayForecast)
+                }
+            }
+            response.onFailure { }
         }
     }
 
-   private fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
+    private fun sortConditions(fiveDayForecast: FiveDayForecast): List<Days> {
         val dayList = mutableListOf<Days>()
         val oneDayList = fiveDayForecast.forecastList
             .groupBy { (it.dt.toLong()).convertLongToMonthDay(it.dt.toLong() * 1000) }
@@ -103,6 +91,9 @@ class WeatherViewModel : ViewModel(), AnkoLogger {
         for ((k, v) in oneDayList) {
             dayList.add(Days(k, v))
         }
+
         return dayList
     }
+
+
 }

@@ -96,5 +96,3 @@ Rapp/src/main/java/com/rondaugherty/weatherappcodechallenge/adapter/ChildAdapter
 Sapp/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/CustomViewPager.kt,1/9/198a0761d6ca1b8f759d042cb83b756a3e77c25a
 ~
 Napp/src/main/java/com/rondaugherty/weatherappcodechallenge/Utils/Extensions.kt,9/6/96ac436970862b33722d7d3e8caa8414e0731652
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

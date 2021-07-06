@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "126994982513",
+    "firebase_url": "https://weatherappcodechallenge.firebaseio.com",
+    "project_id": "weatherappcodechallenge",
+    "storage_bucket": "weatherappcodechallenge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126994982513:android:c36e1c368dd90675",
+        "android_client_info": {
+          "package_name": "com.rondaugherty.weatherappcodechallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126994982513-odov210g4chgtobf2ijhdpat8k4sqh6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rondaugherty.weatherappcodechallenge",
+            "certificate_hash": "35c102bc8850fe872a3526bf506ddf33f2dfd272"
+          }
+        },
+        {
+          "client_id": "126994982513-itmg0lmrniq5i0j0vdbb8kf87f08v5go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_0heTIb95XuAE7mQlDXqbsrwqMcDplw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126994982513-itmg0lmrniq5i0j0vdbb8kf87f08v5go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

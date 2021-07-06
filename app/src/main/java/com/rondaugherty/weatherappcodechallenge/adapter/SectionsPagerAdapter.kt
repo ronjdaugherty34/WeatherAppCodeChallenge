@@ -8,7 +8,7 @@ import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.fragments.CurrentTempFragment
 import com.rondaugherty.weatherappcodechallenge.fragments.FiveDayForecastFragment
 
-private val TAB_TITLES = arrayOf(
+private val TAB_TITLES = listOf<Int>(
     R.string.tab_text_1,
     R.string.tab_text_2
 )
@@ -24,14 +24,10 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
             else -> {CurrentTempFragment()}
         }
 
+    override fun getCount(): Int = 2
 
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getCount(): Int {
-
-        return 2
     }
 }

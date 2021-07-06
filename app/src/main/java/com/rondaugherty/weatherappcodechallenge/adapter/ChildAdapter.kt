@@ -1,27 +1,22 @@
 package com.rondaugherty.weatherappcodechallenge.adapter
 
+
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rondaugherty.weatherappcodechallenge.R
 import com.rondaugherty.weatherappcodechallenge.Utils.convertLongToTimeHours
 import com.rondaugherty.weatherappcodechallenge.model.CurrentConditions
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.weather_item_row.view.*
-import org.jetbrains.anko.AnkoLogger
 import kotlin.math.roundToInt
 
-class ChildAdapter(private val children: List<CurrentConditions>, val context: Context) : RecyclerView.Adapter<ChildAdapter.ViewHolder>(),
-    AnkoLogger {
-    private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
+class ChildAdapter(private val children: List<CurrentConditions>, val context: Context) :
+    RecyclerView.Adapter<ChildAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -41,29 +36,19 @@ class ChildAdapter(private val children: List<CurrentConditions>, val context: C
         val uri = Uri.parse(
             path
         )
-        val disposable = Observable.fromCallable {  Glide.with(context) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                it.load(uri).into(holder.itemView.fiveDayWeatherIconImageView)
 
-            }
-        compositeDisposable.add(disposable)
+        Glide.with(context).load(uri).into(holder.imageView)
 
+        holder.textView1.text = (child.dt.toLong()).convertLongToTimeHours(child.dt.toLong() * 1000)
 
-        holder.textView2.text = (child.dt.toLong()).convertLongToTimeHours(child.dt.toLong() * 1000)
-
-        holder.textView3.text = "${child.main.temp.roundToInt()}°"
+        holder.textView2.text = "${child.main.temp.roundToInt()}°"
 
     }
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
-        val textView2: TextView = itemView.fiveTimeTextView
-        val textView3: TextView = itemView.fiveDayForecastTemp
-
-
+        val textView1: TextView = itemView.findViewById(R.id.fiveTimeTextView)
+        val textView2: TextView = itemView.findViewById(R.id.fiveDayForecastTemp)
+        val imageView: ImageView = itemView.findViewById(R.id.fiveDayWeatherIconImageView)
     }
 }

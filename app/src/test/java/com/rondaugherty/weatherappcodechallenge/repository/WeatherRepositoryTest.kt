@@ -7,10 +7,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.observers.TestObserver
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
@@ -18,9 +14,9 @@ import org.junit.Test
 
 class WeatherRepositoryTest {
 
-    private val weatherRepository = spyk<WeatherRepository>(recordPrivateCalls = true)
-
-
+//    private val weatherRepository = spyk<WeatherRepository>(recordPrivateCalls = true)
+//
+//
 //    @Before
 //    fun setUp() {
 //        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }

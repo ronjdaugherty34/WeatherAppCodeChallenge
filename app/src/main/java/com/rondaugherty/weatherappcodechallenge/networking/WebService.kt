@@ -5,13 +5,11 @@ import com.rondaugherty.weatherappcodechallenge.model.LogLevel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+
 import java.util.concurrent.TimeUnit
 
 object WebService {
-
 
     private var retrofit: Retrofit? = null
 
@@ -38,8 +36,6 @@ object WebService {
             retrofit = Retrofit.Builder().apply {
                 baseUrl(Utils.BASE_URL_OPEN)
                 addConverterFactory(GsonConverterFactory.create())
-                addConverterFactory(ScalarsConverterFactory.create())
-                addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 client(client)
             }.build()
         }
@@ -49,6 +45,6 @@ object WebService {
     }
 
     fun getAPIService(logLevel: LogLevel = LogLevel.LOG_REQ_RES_BODY_HEADERS) =
-        getClient(logLevel).create(APIService::class.java)!!
+        getClient(logLevel).create(APIService::class.java)
 
 }
