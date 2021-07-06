@@ -27,15 +27,7 @@ class WeatherAdapter(private val dayList: List<Days>, val context: Context) :
 
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
-
         val day = dayList[position]
-//        holder.textView.text = day.day
-//        holder.recyclerView.apply {
-//            layoutManager = LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
-//            adapter = ChildAdapter(day.forecastList, context)
-//            setRecycledViewPool(viewPool)
-//        }
-
         holder.textView.text = day.day
         holder.recyclerView.apply {
             layoutManager =
@@ -43,8 +35,6 @@ class WeatherAdapter(private val dayList: List<Days>, val context: Context) :
             adapter = ChildAdapter(day.forecastList, context)
             setRecycledViewPool(viewPool)
         }
-
-
     }
 
     inner class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Toolbar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -64,29 +64,20 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             requestPermissionLauncher.launch(
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
             return
         }
+
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                // Got last known location. In some rare situations this can be null.
-
                 location?.let {
                     weatherViewModel.setLocationLiveData(it.latitude, it.longitude)
                     weatherViewModel.getCurrentWeather()
                     weatherViewModel.getFiveDayForecast()
                 }
             }
-
     }
 
 

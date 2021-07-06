@@ -24,14 +24,10 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
             else -> {CurrentTempFragment()}
         }
 
+    override fun getCount(): Int = 2
 
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getCount(): Int {
-
-        return 2
     }
 }

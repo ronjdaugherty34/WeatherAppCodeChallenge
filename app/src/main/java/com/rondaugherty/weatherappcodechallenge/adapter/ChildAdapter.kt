@@ -47,7 +47,6 @@ class ChildAdapter(private val children: List<CurrentConditions>, val context: C
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val textView1: TextView = itemView.findViewById(R.id.fiveTimeTextView)
         val textView2: TextView = itemView.findViewById(R.id.fiveDayForecastTemp)
         val imageView: ImageView = itemView.findViewById(R.id.fiveDayWeatherIconImageView)
